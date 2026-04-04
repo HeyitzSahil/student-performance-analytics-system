@@ -41,4 +41,4 @@ A command-line based application built using Python and MySQL to manage and anal
 
 ## Author
 
-Sahil Mukherjee
+Sahil Swarnakar
