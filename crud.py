@@ -32,8 +32,6 @@ def view_report_card():
                     
             total_score += score
 
-            average_score = total_score / len(results)
-
             if score >= 90:
                 grade = 'A'
             elif score >= 75:
@@ -44,21 +42,23 @@ def view_report_card():
                 grade = 'F'
             
             print(f"grade: {grade}")
-            print("\n" + "="*30)    
+            print("\n" + "="*30)
+        average_score = total_score / len(results)
         print(f"Total Score: {total_score}")
         print(f"Average Score: {average_score:.2f}")
         print(f"Grade: {grade}")
-
-    max_score = max(score for _, score in results)
-    min_score = min(score for _, score in results)
-
-    variance = max_score - min_score
-    if variance > 40:
-        print("Warning: The student's performance is inconsistent across subjects. Need urgent attention to weaker subjects.")
-    elif variance < 10:
-        print("The student's performance is consistent across subjects. Keep up the good work!")
-    else:
-        print("The student's performance shows some variation across subjects. Consider focusing on weaker subjects for improvement.")
+    if results == True:
+        
+        max_score = max(score for _, score in results)
+        min_score = min(score for _, score in results)
+    
+        variance = max_score - min_score
+        if variance > 40:
+            print("Warning: The student's performance is inconsistent across subjects. Need urgent attention to weaker subjects.")
+        elif variance < 10:
+            print("The student's performance is consistent across subjects. Keep up the good work!")
+        else:
+            print("The student's performance shows some variation across subjects. Consider focusing on weaker subjects for improvement.")
     cursor.close()
     conn.close()
 
@@ -85,16 +85,15 @@ def add_student():
     print("Available Subjects:")
     for subject in subjects:
         print(f"ID: {subject[0]}, Name: {subject[1]}")
-    print("Enter subject IDs for this students separated by commas (e.g., 1,2,3): ")
+    print("Enter subject IDs for this student separated by commas (e.g., 1,2,3): ")
     subjects = input().split(',')
-
+    
+    
     for sub in subjects:
         cursor.execute(
             "INSERT INTO student_subjects (std_id, subject_id) VALUES (%s, %s)", (std_id, int(sub.strip())) 
         )
-            
-     #Add score for the student in the marks table
-            
+        #Add score for the student in the marks table   
         score = validate_input(f"Enter the score for subject ID {sub.strip()}: ", int)
         if score < 0 or score > 100:
             print("Invalid score. Please enter a value between 0 and 100.Retry adding the student.")
@@ -104,7 +103,7 @@ def add_student():
             "INSERT INTO marks (std_id, subject_id, score) VALUES (%s, %s, %s)", (std_id, int(sub.strip()), score) 
         )   
         conn.commit()
-        print("Student added successfully.")
+    print("Student added successfully.")
 
     cursor.close()
     conn.close()    
