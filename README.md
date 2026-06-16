@@ -91,4 +91,4 @@ REFERENCES student_subjects(std_id, subject_id);
 
 ## 👤 Author
 
-Sahil Mukherjee
+Sahil Swarnakar
